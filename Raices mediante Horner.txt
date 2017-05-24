@@ -1,0 +1,68 @@
+% Raíces mediante Horner
+	n=input('Ingrese el grado del polinomio(el exponente mayor): ')+1;
+	vectCoeficientes=linspace(0,0,n);
+	vectMultipliTemporales= linspace(0,0,n);
+	vectMultipliTemporales2= linspace(0,0,n-1);
+	vectSumasTemporales=linspace(0,0,n);
+	vectSumasTemporales2=linspace(0,0,n-1);
+	valoresX=linspace(0,0,n);
+	fprintf('Recuerde que el polinomio debe estar Ordenado de Mayor a menor Grado \nEjemplo : 6x³+ 5x² + 3x + 1 \n')
+	fprintf('Recuerde tambien que si falta por ejemplo el x² cuando le pida el termino aunque no este ingrese cero 0 \n')
+	for i= 1: n
+		fprintf('Ingrese el coeficionete %d',i);
+		vectCoeficientes(i)=input(': ');
+	end
+	Xo=input('ingrese el valor de X0: ');
+	XoTemp =Xo;
+	itera=input('ingrese la cantidad de iteraciones: ');
+
+	for j=1: itera
+	%INICIA ITERACION 
+		%PRIMERA PARTE DE LA DIVISION SINTETICA
+		for i= 1: n
+			if (i==1)
+				vectSumasTemporales(i)=vectCoeficientes(i);
+				vectMultipliTemporales(i)=0;
+			end
+			if (i>1)
+				vectMultipliTemporales(i)=vectSumasTemporales(i-1)*Xo;
+				vectSumasTemporales(i)=vectCoeficientes(i)+(vectMultipliTemporales(i));
+			end
+		end
+
+		%SEGUDA PARTE DE LA DIVISION SINTETICA
+		for i= 1: n-1
+			if (i==1)
+				vectSumasTemporales2(i)=vectSumasTemporales(i);
+				vectMultipliTemporales2(i)=0;
+			end
+			if (i>1)
+				vectMultipliTemporales2(i)=vectSumasTemporales2(i-1)*Xo;
+				vectSumasTemporales2(i)=vectSumasTemporales(i)+(vectMultipliTemporales2(i));
+			end
+		end
+		XoTemp=Xo; %valor de Xo antes de finalizar la iteracion
+		Xo=Xo-(vectSumasTemporales(n)/vectSumasTemporales2(n-1)); %CALCULAR Xo para la siguiente iteracion
+		vectSumasTemporales;
+		vectSumasTemporales2;
+		valoresX(j)= Xo; %vector que almacena los valores de X sub n
+		format long;
+		fprintf('*/*/*/*/*/ITERACION NO %d /*/*/*/*/*\n', j)
+		fprintf('%.13f \t',vectCoeficientes)
+		fprintf('\n')
+		fprintf('%.13f \t',vectMultipliTemporales)
+		fprintf('\n _________________________________________________________________________________________ \n')
+		fprintf('%.13f \t',vectSumasTemporales)
+		fprintf('\n')
+		fprintf('%.13f \t',vectMultipliTemporales2)
+		fprintf('\n ________________________________________________________________\n')
+		fprintf('%.13f \t',vectSumasTemporales2)
+		fprintf('\n')
+		fprintf('\n X(%d)=%.13f -(%.13f/ %.13f) =  %.13f \t',j,XoTemp, vectSumasTemporales(n), vectSumasTemporales2(n-1), Xo)
+		fprintf('\n')
+		operacion=((Xo - XoTemp)/Xo)*100;
+		fprintf('\n |Et|= ((%.13f -  %.13f) / %.13f )*100 \n',Xo,XoTemp,Xo)
+		fprintf('\n |Et|= %.13f \n',operacion)
+		fprintf('\n \n ')
+	end
+	valoresX;

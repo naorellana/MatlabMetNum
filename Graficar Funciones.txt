@@ -1,0 +1,12 @@
+%Graficar funciones
+xneg=input('Ingrese el valor del eje X NEGATIVO');
+xpos=input('Ingrese el valor del eje X POSITIVO');
+x=xneg:0.1:xpos;		
+%y=input('Ingrese la funcion (con formato de matlab)')
+y=6*x.^3+5*x.^2+3*x+1; %Horner 
+figure (1)
+plot (x,y)
+title('Titulo')
+xlabel('Eje x')
+ylabel ('Eje Y')
+grid on;
